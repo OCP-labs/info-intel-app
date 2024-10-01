@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAuth } from 'react-oidc-context';
 import { Box, Button, useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useTheme } from '@mui/material/styles';
@@ -6,6 +7,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import './styles/Header.css';
 
 export const Header = () => {
+    const { user, signoutRedirect } = useAuth();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.between("xs", "sm"));
 
@@ -32,7 +34,7 @@ export const Header = () => {
                         <Grid size={{ xs: 5, md: 6, xl: 10 }}>
                             <Grid container display="flex" justifyContent="flex-end">
                                 {!isMobile && 
-                                <Button sx={{ mt: "1rem", mr: "2rem", color: "white" }}>Log In</Button>
+                                <Button sx={{ mt: "1rem", mr: "2rem", color: "white" }} onClick={signoutRedirect}>Log Out</Button>
                                 }
                                 <Button><SettingsIcon sx={{ mt: "1rem", color: "white" }} /></Button>
                             </Grid> 

@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -7,9 +7,11 @@ export default defineConfig({
   server: {
     port: 5500,
     proxy: {
-      '/cms': {
+      '/proxy': {
         target: 'https://us.api.opentext.com',
-        changeOrigin: true
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/proxy/, "")
       }
     }
   }

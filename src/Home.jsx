@@ -1,32 +1,26 @@
-import React, { useContext, useState } from "react";
-import { AuthContext } from 'react-oauth2-code-pkce';
+import React from "react";
+import { useAuth } from 'react-oidc-context';
 import { Box, Button } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 
 export const Home = () => {
-  const { token, tokenData } = useContext(AuthContext);
-  const [ subscriptionRootId, setSubscriptionRootId ] = useState();
+  const { user } = useAuth();
 
-  /*
-  const getSubscriptionRoot = async () => {
-    const requestOptions = {
+  const getFolders = async () => {
+    const response = await fetch('proxy/cms/instances/folder/cms_folder', {
       method: 'GET',
       headers: {
-        'Authentication': `Bearer ${token}`
+        'Authorization': `Bearer ${user.access_token}`,
       }
-    }
-    const response = await fetch('/cms/instances/folder/cms_folder', requestOptions);
-    const responseJson = response.json();
+    });
+    const responseJson = await response.json();
     console.log(responseJson);
-    //return responseJson;
   }
-  */
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2} minHeight={160}>
         <Grid display="flex" justifyContent="center" alignItems="center" size={12}>
-          <Button onClick={() => console.log("test")}>Get root</Button>
+          <Button onClick={getFolders}>Get root</Button>
         </Grid>
       </Grid>
     </Box>
