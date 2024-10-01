@@ -5,6 +5,12 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 5500
+    port: 5500,
+    proxy: {
+      '/cms': {
+        target: 'https://us.api.opentext.com',
+        changeOrigin: true
+      }
+    }
   }
 })

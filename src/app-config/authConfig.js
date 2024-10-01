@@ -6,7 +6,7 @@ const authConfig= {
     scope: 'openid',
     onRefreshTokenExpire: (event) => event.logIn("redirect"),
     clearURL: true,
-    storage: 'local'
+    storage: 'session'
 }
 
 export default authConfig;
