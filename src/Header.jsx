@@ -3,7 +3,7 @@ import { Box, Button, useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useTheme } from '@mui/material/styles';
 import SettingsIcon from '@mui/icons-material/Settings';
-import './Header.css'
+import './styles/Header.css';
 
 export const Header = () => {
     const theme = useTheme();
