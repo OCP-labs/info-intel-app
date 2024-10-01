@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from 'react-oidc-context';
 import {
-  Alert, CircularProgress
+  Alert, Box, CircularProgress
 } from '@mui/material';
 import { Home } from './Home';
 import { Header } from './Header';
@@ -30,9 +30,9 @@ const App = () => {
   switch (activeNavigator) {
     case 'signoutRedirect':
       return (
-        <div className="loading">
-          <CircularProgress />
-        </div>
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
+          <CircularProgress sx={{ display: "flex", justifyContent: "center", alignItems: "center" }} />
+        </Box>
       );
     default:
   }
@@ -51,9 +51,9 @@ const App = () => {
 
   if (!isAppLoaded) {
     return (
-      <div>
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
         <CircularProgress />
-      </div>
+      </Box>
     );
   }
 

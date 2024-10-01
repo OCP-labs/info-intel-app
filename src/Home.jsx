@@ -20,7 +20,7 @@ export const Home = () => {
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2} minHeight={160}>
         <Grid display="flex" justifyContent="center" alignItems="center" size={12}>
-          <Button onClick={getFolders}>Get root</Button>
+          <Button onClick={getFolders}>Get folders</Button>
         </Grid>
       </Grid>
     </Box>

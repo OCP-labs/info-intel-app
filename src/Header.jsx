@@ -7,7 +7,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import './styles/Header.css';
 
 export const Header = () => {
-    const { user, signoutRedirect } = useAuth();
+    const { signoutRedirect } = useAuth();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.between("xs", "sm"));
 
