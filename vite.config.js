@@ -7,11 +7,17 @@ export default defineConfig({
   server: {
     port: 5500,
     proxy: {
-      '/proxy': {
-        target: 'https://us.api.opentext.com',
+      '/api': {
+        target: 'https://mrg-mtm-gateway-api.test.ca.opentext.com',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/proxy/, "")
+        rewrite: (path) => path.replace(/^\/api/, "")
+      },
+      '/auth': {
+        target: 'https://otdsauth.test.ca.opentext.com',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/auth/, "")
       }
     }
   }
