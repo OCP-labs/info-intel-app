@@ -121,8 +121,7 @@ export const InfoIntel = (props) => {
       </Box>
       {loading && <CircularProgress sx={{ position: "absolute", bottom: {xs: 350, md: 450} }} />}
       <ResultsModal resultsModalOpen={resultsModalOpen} setResultsModalOpen={setResultsModalOpen}
-       results={results} setResults={setResults} selectedFile={selectedFile} 
-      />
+       results={results} setResults={setResults} selectedFile={selectedFile} />
     </>
   )
 }

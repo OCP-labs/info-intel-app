@@ -6,6 +6,7 @@ export function ResultsModal(props) {
     const { resultsModalOpen, setResultsModalOpen, results, setResults, selectedFile } = props;
     const { accessToken, authFetch } = useContext(AuthContext);
 
+    const [ currentEndpoint, setCurrentEndpoint ] = useState();
     const [ isImage, setIsImage ] = useState(false);
     const [ extractedText, setExtractedText ] = useState();
     const [ noTextFound, setNoTextFound ] = useState();
@@ -15,15 +16,21 @@ export function ResultsModal(props) {
     useEffect(() => {
         if (results) {
             if (results.hasOwnProperty("header")) {
-                console.log("process")
-            } else {
-                if (results.riskClassification) {
-                    const imageResults = results.riskClassification.result.image;
-                    if (imageResults.length) {
-                        setIsImage(true);
-                        setIsReclassified(false);
-                    }  
+                setCurrentEndpoint("process");
+                const imageResults = results.results.ia;
+                if (imageResults.status.message === "SUCCESS") {
+                    setIsImage(true);
+                    setIsReclassified(false);
                 }
+            } else if (results.riskClassification) {
+                setCurrentEndpoint("classify")
+                const imageResults = results.riskClassification.result.image;
+                if (imageResults.length) {
+                    setIsImage(true);
+                    setIsReclassified(false);
+                }  
+            } else {
+                setCurrentEndpoint("extract");
             }
         }
     }, [results])
@@ -37,9 +44,10 @@ export function ResultsModal(props) {
           headers: { 'Authorization': `Bearer ${accessToken}` },
           body: formData
         }
-        let response = await authFetch('api/extract?action=ocr', requestOptions);
+        console.log("Running OCR.")
+        const response = await authFetch('api/extract?action=ocr', requestOptions);
         if (response.ok) {
-            let responseJson = await response.json();
+            const responseJson = await response.json();
             const text = responseJson.riskExtraction.results["idol-ocr"].result.results;
             if (!text) {
                 setNoTextFound(true);
@@ -52,7 +60,7 @@ export function ResultsModal(props) {
         setLoading(false);
     }
 
-    const reclassifyFile = async (text) => {
+    const reanalyzeFile = async (text, endpoint) => {
         setLoading(true);
         const blob = new Blob([text], { type: 'text/plain' });
         const file = new File([blob], "name");
@@ -63,7 +71,7 @@ export function ResultsModal(props) {
             headers: { 'Authorization': `Bearer ${accessToken}` },
             body: formData
         }
-        const response = await authFetch('api/classify', requestOptions);
+        const response = await authFetch(`api/${endpoint}`, requestOptions);
         if (response.ok) {
             const responseJson = await response.json();
             setIsReclassified(true);
@@ -79,7 +87,7 @@ export function ResultsModal(props) {
         } else if (isImage && !extractedText) {
             return <Button onClick={() => runOCR(selectedFile)} sx={{ ml: "1rem", mt: "0.25rem" }}>OCR file</Button>
         } else if (isImage && !isReclassified) {
-            return <Button onClick={() => reclassifyFile(extractedText)} sx={{ ml: "1rem", mt: "0.25rem" }}>Reclassify file</Button>
+            return <Button onClick={() => reanalyzeFile(extractedText, currentEndpoint)} sx={{ ml: "1rem", mt: "0.25rem" }}>Reanalyze file</Button>
         } else if (isImage) {
             return <div></div>
         }
