@@ -28,6 +28,7 @@ export const InfoIntel = (props) => {
       setResultsModalOpen(true);
       console.log(responseJson);
     }
+    setResultsModalOpen(true);
     setLoading(false);
   }
 
@@ -66,6 +67,7 @@ export const InfoIntel = (props) => {
       setResultsModalOpen(true);
       console.log(responseJson);
     }
+    setResultsModalOpen(true);
     setLoading(false);
   }
 

@@ -21,6 +21,7 @@ export function ResultsModal(props) {
                     const imageResults = results.riskClassification.result.image;
                     if (imageResults.length) {
                         setIsImage(true);
+                        setIsReclassified(false);
                     }  
                 }
             }
@@ -85,7 +86,7 @@ export function ResultsModal(props) {
     }
 
     return (
-        <Dialog sx={{ mb: "5rem" }} open={resultsModalOpen} onClose={() => setResultsModalOpen(!resultsModalOpen)}>
+        <Dialog fullWidth={true} sx={{ mb: "5rem" }} open={resultsModalOpen} onClose={() => setResultsModalOpen(!resultsModalOpen)}>
             <DialogTitle>
                 <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
                 <Box>Results</Box>
