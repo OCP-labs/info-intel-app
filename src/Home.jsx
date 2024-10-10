@@ -11,10 +11,8 @@ export const Home = (props) => {
 
   const handleFileSelection = async (e) => {
     if (e.target.files[0]) {
-      //setLoading(true);
       const file = e.target.files[0];
       setSelectedFile(file);
-      //await extractFile(file);
     }
     e.target.value = null;
   }
@@ -24,7 +22,7 @@ export const Home = (props) => {
       display: "flex", 
       justifyContent: "center", 
       alignItems: "center", 
-      height: "30vh",
+      height: "50vh",
       width: "100vw" 
     }}>
       <Box sx={{ 

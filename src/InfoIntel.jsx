@@ -21,7 +21,7 @@ export const InfoIntel = (props) => {
       headers: { 'Authorization': `Bearer ${accessToken}` },
       body: formData
     }
-    const response = await authFetch('api/mtm-gateway-api/services/mrgservice/v1/extract', requestOptions);
+    const response = await authFetch('api/extract', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
@@ -40,7 +40,7 @@ export const InfoIntel = (props) => {
       headers: { 'Authorization': `Bearer ${accessToken}` },
       body: formData
     }
-    const response = await authFetch('api/mtm-gateway-api/services/mrgservice/v1/classify', requestOptions);
+    const response = await authFetch('api/classify', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
@@ -59,7 +59,7 @@ export const InfoIntel = (props) => {
       headers: { 'Authorization': `Bearer ${accessToken}` },
       body: formData
     }
-    const response = await authFetch('api/mtm-gateway-api/services/mrgservice/v1/process', requestOptions);
+    const response = await authFetch('api/process', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
@@ -86,7 +86,7 @@ export const InfoIntel = (props) => {
           variant="contained" 
           component="label" 
           onClick={() => extractFile(selectedFile)}
-          sx={{ width: { xs: "50%", md: "20%" }, height: "15%" }}
+          sx={{ width: { xs: "50%", md: "20%" }, height: "10%" }}
         >
           Extract
         </Button>
@@ -94,7 +94,7 @@ export const InfoIntel = (props) => {
           variant="contained" 
           component="label" 
           onClick={() => classifyFile(selectedFile)}
-          sx={{ width: { xs: "50%", md: "20%" }, height: "15%" }}
+          sx={{ width: { xs: "50%", md: "20%" }, height: "10%" }}
         >
           Classify
         </Button>
@@ -102,7 +102,7 @@ export const InfoIntel = (props) => {
           variant="contained" 
           component="label" 
           onClick={() => processFile(selectedFile)}
-          sx={{ width: { xs: "50%", md: "20%" }, height: "15%" }}
+          sx={{ width: { xs: "50%", md: "20%" }, height: "10%" }}
         >
           Process
         </Button>
@@ -117,8 +117,10 @@ export const InfoIntel = (props) => {
           <RestartAltIcon />
         </IconButton>
       </Box>
-      {loading && <CircularProgress sx={{ position: "absolute", top: {xs: 400, md: 300} }} />}
-      <ResultsModal resultsModalOpen={resultsModalOpen} setResultsModalOpen={setResultsModalOpen} results={results} />
+      {loading && <CircularProgress sx={{ position: "absolute", bottom: {xs: 350, md: 450} }} />}
+      <ResultsModal resultsModalOpen={resultsModalOpen} setResultsModalOpen={setResultsModalOpen}
+       results={results} setResults={setResults} selectedFile={selectedFile} 
+      />
     </>
   )
 }
