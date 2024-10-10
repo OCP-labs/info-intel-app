@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Home } from './Home';
+import { InfoIntel } from './InfoIntel';
 import { Header } from './Header';
 import { LoginModal } from './LoginModal';
 import AuthContext from './context/AuthContext';
@@ -123,7 +123,7 @@ const App = () => {
   return (
     <AuthContext.Provider value={{username, setUsername, password, setPassword, accessToken, setAccessToken, getAccessToken, authFetch, loggedIn, setLoggedIn}}>
       <Header loginModalOpen={loginModalOpen} setLoginModalOpen={setLoginModalOpen}  />
-      <Home />
+      <InfoIntel />
       <LoginModal loginModalOpen={loginModalOpen} setLoginModalOpen={setLoginModalOpen} />
     </AuthContext.Provider>
   );

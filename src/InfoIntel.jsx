@@ -3,7 +3,7 @@ import { Box, Button, CircularProgress } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import AuthContext from "./context/AuthContext";
 
-export const Home = () => {
+export const InfoIntel = () => {
   const { loggedIn, accessToken, authFetch } = useContext(AuthContext);
 
   const [ selectedFile, setSelectedFile ] = useState();
@@ -33,23 +33,21 @@ export const Home = () => {
     setLoading(false);
   }
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2} minHeight={160}>
-        <Grid display="flex" justifyContent="center" alignItems="center" size={12}>
-          <Button 
-            variant="contained" 
-            component="label" 
-            disabled={!loggedIn}
-            sx={{ position: "absolute" }}
-          >
-            Choose file
-            <input type="file" hidden onChange={handleFileSelection} />
-          </Button>
-        </Grid>
-        <Grid display="flex" justifyContent="center" alignItems="center" size={12}>
-          {loading && <CircularProgress sx={{ position: "absolute" }} />}
-        </Grid>
+    <Grid container spacing={2} height={"100vh"}>
+      <Grid sx={{ height: "50%" }} display="flex" justifyContent="center" alignItems="center" size={12}>
+        <Button 
+          variant="contained" 
+          component="label" 
+          disabled={!loggedIn}
+          sx={{ position: "absolute" }}
+        >
+          Choose file
+          <input type="file" hidden onChange={handleFileSelection} />
+        </Button>
       </Grid>
-    </Box>
+      <Grid display="flex" justifyContent="center" alignItems="center" size={12}>
+        {loading && <CircularProgress sx={{ position: "absolute" }} />}
+      </Grid>
+    </Grid>
   )
 }
