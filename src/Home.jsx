@@ -37,7 +37,7 @@ export const Home = (props) => {
         width: "100%",
         height: "100%" 
       }}>
-        {!selectedFile && 
+        {!selectedFile ? 
         <Button 
           variant="contained" 
           component="label" 
@@ -47,6 +47,8 @@ export const Home = (props) => {
           Choose file
           <input type="file" hidden onChange={handleFileSelection} />
         </Button>
+        :
+        <Box sx={{ height: { xs: "20%", md: "5%" } }}>{selectedFile.name}</Box>
         }
       </Box>
       {loading && <CircularProgress sx={{ position: "relative", top: 70 }} />}
