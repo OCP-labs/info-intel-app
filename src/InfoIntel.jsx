@@ -5,19 +5,9 @@ import AuthContext from "./context/AuthContext";
 
 export const InfoIntel = (props) => {
   const { selectedFile, setSelectedFile } = props;
-  const { loggedIn, accessToken, authFetch } = useContext(AuthContext);
+  const { accessToken, authFetch } = useContext(AuthContext);
 
   const [ loading, setLoading ] = useState(false);
-
-  const handleFileSelection = async (e) => {
-    if (e.target.files[0]) {
-      setLoading(true);
-      const file = e.target.files[0];
-      setSelectedFile(file);
-      await extractFile(file);
-    }
-    e.target.value = null;
-  }
 
   const extractFile = async (file) => {
     const formData = new FormData();
@@ -111,6 +101,7 @@ export const InfoIntel = (props) => {
         </IconButton>
       </Box>
       {loading && <CircularProgress sx={{ position: "relative", top: 70 }} />}
+      <ResultsModal></ResultsModal>
     </>
   )
 }

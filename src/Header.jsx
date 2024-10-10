@@ -43,13 +43,13 @@ export const Header = (props) => {
                         <Grid zIndex={1} size={{ xs: 5, md: 6, xl: 10 }}>
                             <Grid container display="flex" justifyContent="flex-end">
                                 {loggedIn ?
-                                    <Button onClick={handleLogout} sx={{ mt: "1rem", mr: "2rem", color: "white" }}>Log out</Button>
+                                <Button onClick={handleLogout} sx={{ mt: "1rem", mr: "2rem", color: "white" }}>Log out</Button>
                                 :
-                                    <Button 
-                                        onClick={() => setLoginModalOpen(!loginModalOpen)} sx={{ mt: "1rem", mr: "2rem", color: "white" }}
-                                    >
-                                        Log In
-                                    </Button>
+                                <Button 
+                                    onClick={() => setLoginModalOpen(!loginModalOpen)} sx={{ mt: "1rem", mr: "2rem", color: "white" }}
+                                >
+                                    Log In
+                                </Button>
                                 }
                             </Grid> 
                         </Grid>
