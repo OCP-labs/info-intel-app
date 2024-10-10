@@ -1,17 +1,20 @@
 import React, { useContext, useState } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import AuthContext from "./context/AuthContext";
 
 export const Home = () => {
+  const { loggedIn, accessToken, authFetch } = useContext(AuthContext);
+
   const [ selectedFile, setSelectedFile ] = useState();
-  const { loggedIn, accessToken } = useContext(AuthContext);
+  const [ loading, setLoading ] = useState(false);
 
   const handleFileSelection = async (e) => {
     if (e.target.files[0]) {
-        const file = e.target.files[0];
-        setSelectedFile(file);
-        await detectFile(file);
+      setLoading(true);
+      const file = e.target.files[0];
+      setSelectedFile(file);
+      await detectFile(file);
     }
     e.target.value = null;
   }
@@ -24,9 +27,10 @@ export const Home = () => {
       headers: { 'Authorization': `Bearer ${accessToken}` },
       body: formData
     }
-    const response = await fetch('api/mtm-gateway-api/services/mrgservice/v1/detect', requestOptions);
+    const response = await authFetch('api/mtm-gateway-api/services/mrgservice/v1/extract', requestOptions);
     const responseJson = await response.json();
     console.log(responseJson);
+    setLoading(false);
   }
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -36,10 +40,14 @@ export const Home = () => {
             variant="contained" 
             component="label" 
             disabled={!loggedIn}
+            sx={{ position: "absolute" }}
           >
             Choose file
             <input type="file" hidden onChange={handleFileSelection} />
           </Button>
+        </Grid>
+        <Grid display="flex" justifyContent="center" alignItems="center" size={12}>
+          {loading && <CircularProgress sx={{ position: "absolute" }} />}
         </Grid>
       </Grid>
     </Box>
