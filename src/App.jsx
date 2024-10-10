@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { InfoIntel } from './InfoIntel';
+import { Box } from '@mui/material';
+import { Home } from './Home';
 import { Header } from './Header';
 import { LoginModal } from './LoginModal';
 import AuthContext from './context/AuthContext';
@@ -11,6 +12,7 @@ const App = () => {
   const [ password, setPassword ] = useState();
   const [ loggedIn, setLoggedIn ] = useState();
   const [ loginModalOpen, setLoginModalOpen ] = useState(false);
+  const [ selectedFile, setSelectedFile ] = useState();
 
   useEffect(() => {
     checkUserStatus();
@@ -122,8 +124,8 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={{username, setUsername, password, setPassword, accessToken, setAccessToken, getAccessToken, authFetch, loggedIn, setLoggedIn}}>
-      <Header loginModalOpen={loginModalOpen} setLoginModalOpen={setLoginModalOpen}  />
-      <InfoIntel />
+      <Header loginModalOpen={loginModalOpen} setLoginModalOpen={setLoginModalOpen} setSelectedFile={setSelectedFile}  />
+      <Home selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
       <LoginModal loginModalOpen={loginModalOpen} setLoginModalOpen={setLoginModalOpen} />
     </AuthContext.Provider>
   );

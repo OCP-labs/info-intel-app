@@ -6,8 +6,8 @@ import AuthContext from "./context/AuthContext";
 import './styles/Header.css';
 
 export const Header = (props) => {
-    const { loginModalOpen, setLoginModalOpen } = props;
-    const { setUsername, setPassword, loggedIn, setAccessToken } = useContext(AuthContext);
+    const { loginModalOpen, setLoginModalOpen, setSelectedFile } = props;
+    const { setUsername, setPassword, loggedIn, setLoggedIn, setAccessToken } = useContext(AuthContext);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.between("xs", "sm"));
 
@@ -15,6 +15,8 @@ export const Header = (props) => {
         setUsername("");
         setPassword("");
         setAccessToken("");
+        setLoggedIn(false),
+        setSelectedFile();
         window.localStorage.clear();
     }
 
@@ -38,12 +40,16 @@ export const Header = (props) => {
                         <Grid size={{ xs: 4, md: 4, xl: 1 }}>
                             <Box sx={{ mt: "1.4rem", fontSize: "1.5rem" }}>InfoIntel</Box>
                         </Grid>
-                        <Grid size={{ xs: 5, md: 6, xl: 10 }}>
+                        <Grid zIndex={1} size={{ xs: 5, md: 6, xl: 10 }}>
                             <Grid container display="flex" justifyContent="flex-end">
                                 {loggedIn ?
                                     <Button onClick={handleLogout} sx={{ mt: "1rem", mr: "2rem", color: "white" }}>Log out</Button>
                                 :
-                                    <Button onClick={() => setLoginModalOpen(true)} sx={{ mt: "1rem", mr: "2rem", color: "white" }}>Log In</Button>
+                                    <Button 
+                                        onClick={() => setLoginModalOpen(!loginModalOpen)} sx={{ mt: "1rem", mr: "2rem", color: "white" }}
+                                    >
+                                        Log In
+                                    </Button>
                                 }
                             </Grid> 
                         </Grid>
