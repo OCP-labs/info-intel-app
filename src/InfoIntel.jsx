@@ -101,7 +101,6 @@ export const InfoIntel = (props) => {
         </IconButton>
       </Box>
       {loading && <CircularProgress sx={{ position: "relative", top: 70 }} />}
-      <ResultsModal></ResultsModal>
     </>
   )
 }
