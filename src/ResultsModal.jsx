@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Box, Button, CircularProgress, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import AuthContext from "./context/AuthContext";
 
@@ -13,37 +13,45 @@ export function ResultsModal(props) {
     const [ isReclassified, setIsReclassified ]= useState(false);
     const [ loading, setLoading ] = useState(false);
 
+    const prevSelectedFile = useRef(selectedFile);
+
     useEffect(() => {
         if (results) {
             if (results.hasOwnProperty("header")) {
                 setCurrentEndpoint("process");
                 const imageResults = results.results.ia;
                 if (imageResults.status.message === "SUCCESS") {
-                    //setIsImage(true);
                     setFileType("image");
                     setIsReclassified(false);
                 } else if (selectedFile.type.includes("audio")) {
-                    //setIsAudio(true);
                     setFileType("audio");
                     setIsReclassified(false);
+                } else {
+                    setFileType("other");
                 }
             } else if (results.riskClassification) {
                 setCurrentEndpoint("classify")
                 const imageResults = results.riskClassification.result.image;
                 if (imageResults.length) {
-                    //setIsImage(true);
                     setFileType("image");
                     setIsReclassified(false);
                 } else if (selectedFile.type.includes("audio")) {
-                    //setIsAudio(true);
                     setFileType("audio");
                     setIsReclassified(false);
+                } else {
+                    setFileType("other");
                 }
             } else {
                 setCurrentEndpoint("extract");
             }
         }
-    }, [results])
+
+        if (prevSelectedFile.current !== selectedFile) {
+            setExtractedText("");
+            setNoTextFound(false);
+            prevSelectedFile.current = selectedFile;
+        }
+    }, [results, selectedFile])
 
     const runOCR = async (file) => {
         setLoading(true);
@@ -116,14 +124,14 @@ export function ResultsModal(props) {
     }
 
     const createButton = () => {
-        if ((fileType === "image" || fileType === "audio") && noTextFound) {
+        if (currentEndpoint === "extract" || fileType === "other") {
+            return <div></div>;
+        } else if ((fileType === "image" || fileType === "audio") && noTextFound) {
             return <Box sx={{ fontSize: "1rem", ml: "1rem", mt: "0.25rem" }}>No text found</Box>;
         } else if ((fileType === "image" || fileType === "audio") && !extractedText) {
             return <Button variant="contained" component="label" onClick={() => {fileType === "image" ? runOCR(selectedFile) : runSpeechToText(selectedFile)}} sx={{ ml: "1rem", mt: "0.25rem" }}>{fileType === "image" ? "OCR file" : "Speech to Text"}</Button>
         } else if ((fileType === "image" || fileType === "audio") && !isReclassified) {
             return <Button variant="contained" component="label" onClick={() => reanalyzeFile(extractedText, currentEndpoint)} sx={{ ml: "1rem", mt: "0.25rem" }}>Analyze text</Button>
-        } else if (fileType === "image" || fileType === "audio") {
-            return <div></div>
         }
     }
 

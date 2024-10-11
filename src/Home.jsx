@@ -46,22 +46,39 @@ export const Home = (props) => {
           <input type="file" hidden onChange={handleFileSelection} />
         </Button>
         :
-        <Box sx={{ display: "flex", justifyContent: "center", height: { xs: "20%", md: "5%" }, width: "100%" }}>
+        <Box sx={{ 
+          display: "flex", 
+          justifyContent: { xs: "center", md: "center" }, 
+          alignItems: {xs: "flex-start", md: "center"}, 
+          height: { xs: "25%", md: "5%" }, 
+          width: "100%",
+          mb: {xs: "0rem", md: "1rem" } 
+        }}>
+          <Button component="label" sx={{ 
+            display: "flex", 
+            justifyContent: "center",
+            width: "auto", 
+            height: "auto",
+            marginX: { xs: "1.5rem", md: "auto" },
+            zIndex: "1"
+          }} 
+          >
+            <input type="file" hidden onChange={handleFileSelection} />
             <Typography noWrap sx={{ 
-                textAlign: "center", 
-                overflow: "hidden", 
-                textOverflow: "ellipsis", 
-                display: "inline-block", 
-                width: "50%", 
-                fontSize: { xs: "0.8rem", sm: "1rem" }
+              overflow: "hidden", 
+              textOverflow: "ellipsis", 
+              width: "100%", 
+              fontSize: { xs: "0.8rem", sm: "1rem" },
+              color: "#111b58"
             }}
-            >
-                {selectedFile.name}
+            >             
+              {selectedFile.name}
             </Typography>
+          </Button>
         </Box>
         }
       </Box>
-      {loading && <CircularProgress sx={{ position: "relative", top: 70 }} />}
+      {loading && <CircularProgress sx={{ position: "relative", top: { md: 70 } }} />}
       {selectedFile && <InfoIntel selectedFile={selectedFile} setSelectedFile={setSelectedFile} />}
     </Box>
   )
