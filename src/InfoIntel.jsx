@@ -21,6 +21,7 @@ export const InfoIntel = (props) => {
       headers: { 'Authorization': `Bearer ${accessToken}` },
       body: formData
     }
+    console.log("Calling /extract endpoint.")
     const response = await authFetch('api/extract', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
@@ -41,6 +42,7 @@ export const InfoIntel = (props) => {
       headers: { 'Authorization': `Bearer ${accessToken}` },
       body: formData
     }
+    console.log("Calling /classify endpoint.")
     const response = await authFetch('api/classify', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
@@ -60,6 +62,7 @@ export const InfoIntel = (props) => {
       headers: { 'Authorization': `Bearer ${accessToken}` },
       body: formData
     }
+    console.log("Calling /process endpoint.")
     const response = await authFetch('api/process', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
