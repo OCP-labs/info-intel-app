@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Box, Button, CircularProgress, IconButton } from "@mui/material";
+import { Box, Button, CircularProgress, IconButton, Tooltip } from "@mui/material";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import AuthContext from "./context/AuthContext";
 import { ResultsModal } from "./ResultsModal";
@@ -84,6 +84,7 @@ export const InfoIntel = (props) => {
         width: "100%",
         height: "100%" 
       }}>
+        <Tooltip title="Extract metadata">
         <Button 
           variant="contained" 
           component="label" 
@@ -92,6 +93,7 @@ export const InfoIntel = (props) => {
         >
           Extract
         </Button>
+        </Tooltip>
         <Button 
           variant="contained" 
           component="label" 
