@@ -7,9 +7,7 @@ export function ResultsModal(props) {
     const { accessToken, authFetch } = useContext(AuthContext);
 
     const [ currentEndpoint, setCurrentEndpoint ] = useState();
-    //const [ fileType, setFileType ] = useState();
-    const [ isImage, setIsImage ] = useState(false);
-    const [ isAudio, setIsAudio ] = useState(false);
+    const [ fileType, setFileType ] = useState("");
     const [ extractedText, setExtractedText ] = useState();
     const [ noTextFound, setNoTextFound ] = useState();
     const [ isReclassified, setIsReclassified ]= useState(false);
@@ -21,22 +19,24 @@ export function ResultsModal(props) {
                 setCurrentEndpoint("process");
                 const imageResults = results.results.ia;
                 if (imageResults.status.message === "SUCCESS") {
-                    setIsImage(true);
+                    //setIsImage(true);
+                    setFileType("image");
                     setIsReclassified(false);
                 } else if (selectedFile.type.includes("audio")) {
-                    setIsAudio(true);
+                    //setIsAudio(true);
+                    setFileType("audio");
                     setIsReclassified(false);
                 }
             } else if (results.riskClassification) {
                 setCurrentEndpoint("classify")
                 const imageResults = results.riskClassification.result.image;
-                const piiResults = results.riskClassification.result.pii;
-                const videoResults = results.riskClassification.result.video;
                 if (imageResults.length) {
-                    setIsImage(true);
+                    //setIsImage(true);
+                    setFileType("image");
                     setIsReclassified(false);
-                } else if (!piiResults.length && !videoResults.length) {
-                    setIsAudio(true);
+                } else if (selectedFile.type.includes("audio")) {
+                    //setIsAudio(true);
+                    setFileType("audio");
                     setIsReclassified(false);
                 }
             } else {
@@ -111,19 +111,18 @@ export function ResultsModal(props) {
             const responseJson = await response.json();
             setIsReclassified(true);
             setResults(responseJson);
-            console.log(responseJson);
         }
         setLoading(false);
     }
 
     const createButton = () => {
-        if ((isImage || isAudio) && noTextFound) {
+        if ((fileType === "image" || fileType === "audio") && noTextFound) {
             return <Box sx={{ fontSize: "1rem", ml: "1rem", mt: "0.25rem" }}>No text found</Box>;
-        } else if ((isImage || isAudio) && !extractedText) {
-            return <Button onClick={() => {isImage ? runOCR(selectedFile) : runSpeechToText(selectedFile)}} sx={{ ml: "1rem", mt: "0.25rem" }}>{isImage ? "OCR file" : "Speech to Text"}</Button>
-        } else if ((isImage || isAudio) && !isReclassified) {
-            return <Button onClick={() => reanalyzeFile(extractedText, currentEndpoint)} sx={{ ml: "1rem", mt: "0.25rem" }}>Analyze text</Button>
-        } else if (isImage || isAudio) {
+        } else if ((fileType === "image" || fileType === "audio") && !extractedText) {
+            return <Button variant="contained" component="label" onClick={() => {fileType === "image" ? runOCR(selectedFile) : runSpeechToText(selectedFile)}} sx={{ ml: "1rem", mt: "0.25rem" }}>{fileType === "image" ? "OCR file" : "Speech to Text"}</Button>
+        } else if ((fileType === "image" || fileType === "audio") && !isReclassified) {
+            return <Button variant="contained" component="label" onClick={() => reanalyzeFile(extractedText, currentEndpoint)} sx={{ ml: "1rem", mt: "0.25rem" }}>Analyze text</Button>
+        } else if (fileType === "image" || fileType === "audio") {
             return <div></div>
         }
     }
