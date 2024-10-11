@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Box, Button, CircularProgress } from "@mui/material";
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { InfoIntel } from './InfoIntel';
 import AuthContext from "./context/AuthContext";
 
@@ -46,7 +46,19 @@ export const Home = (props) => {
           <input type="file" hidden onChange={handleFileSelection} />
         </Button>
         :
-        <Box sx={{ height: { xs: "20%", md: "5%" } }}>{selectedFile.name}</Box>
+        <Box sx={{ display: "flex", justifyContent: "center", height: { xs: "20%", md: "5%" }, width: "100%" }}>
+            <Typography noWrap sx={{ 
+                textAlign: "center", 
+                overflow: "hidden", 
+                textOverflow: "ellipsis", 
+                display: "inline-block", 
+                width: "50%", 
+                fontSize: { xs: "0.8rem", sm: "1rem" }
+            }}
+            >
+                {selectedFile.name}
+            </Typography>
+        </Box>
         }
       </Box>
       {loading && <CircularProgress sx={{ position: "relative", top: 70 }} />}

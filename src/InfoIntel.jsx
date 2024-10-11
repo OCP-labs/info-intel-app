@@ -110,7 +110,7 @@ export const InfoIntel = (props) => {
         </Button>
         <IconButton sx={{ 
           position: "absolute", 
-          right: {xs: 50, md: 100, xl: 250}, 
+          right: {xs: 35, sm: 80, md: 80, lg: 150, xl: 250}, 
           padding: "0px", 
           minHeight: "0px", 
           minWidth: "0px" 
