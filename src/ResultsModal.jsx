@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Box, Button, CircularProgress, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import AuthContext from "./context/AuthContext";
+import { ExtractResults } from "./ExtractResults";
+import { ClassifyResults } from "./ClassifyResults";
 
 export function ResultsModal(props) {
     const { resultsModalOpen, setResultsModalOpen, results, setResults, selectedFile } = props;
@@ -135,6 +137,21 @@ export function ResultsModal(props) {
         }
     }
 
+    const renderResults = () => {
+        switch(currentEndpoint) {
+            case "extract":
+                return <pre>{JSON.stringify(results, null, 2)}</pre>
+            case "classify":
+                return <ClassifyResults results={results} />;
+            /*
+            case "process":
+                return <ProcessResults results={results} />;
+            */
+            default:
+                return <pre>{JSON.stringify(results, null, 2)}</pre>
+        }
+    }
+
     return (
         <Dialog fullWidth={true} sx={{ mb: "5rem" }} open={resultsModalOpen} onClose={() => setResultsModalOpen(!resultsModalOpen)}>
             <DialogTitle>
@@ -145,7 +162,7 @@ export function ResultsModal(props) {
                 </Box>
             </DialogTitle>
             <DialogContent>
-                <pre>{JSON.stringify(results, null, 2)}</pre>
+                {renderResults()}
             </DialogContent>
         </Dialog>
     )
