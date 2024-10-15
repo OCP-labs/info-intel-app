@@ -19,30 +19,31 @@ const App = () => {
   });
 
   const checkUserStatus = async () => {
-    const username = window.localStorage.getItem('username');
-    if (username) {
-      setUsername(username);
-    }
-
-    const currentAccessToken = window.localStorage.getItem('access_token');
-    const expiresAt = parseInt(window.localStorage.getItem('expires_at'));
-    const currentTime = Date.now();
-
-    if (currentAccessToken && expiresAt && currentTime <= expiresAt) {
-      setLoggedIn(true);
-      setAccessToken(currentAccessToken);
-    } else if (window.localStorage.getItem('refresh_token')) {
-      try {
-        await getAccessToken(false);
-      } catch (error) {
-        console.log(error);
-        setLoggedIn(false);
-        }
-    } else {
+    const currentUsername = window.localStorage.getItem('username');
+    if (!currentUsername || currentUsername === 'undefined') {
       setLoggedIn(false);
-      window.localStorage.removeItem('access_token');
-      window.localStorage.removeItem('expires_at');
-      window.localStorage.removeItem('refresh_token');
+      window.localStorage.clear();
+    } else {
+      setUsername(currentUsername);
+      const currentAccessToken = window.localStorage.getItem('access_token');
+      const expiresAt = parseInt(window.localStorage.getItem('expires_at'));
+      const currentTime = Date.now();
+      if (currentAccessToken && expiresAt && currentTime <= expiresAt) {
+        setLoggedIn(true);
+        setAccessToken(currentAccessToken);
+      } else if (window.localStorage.getItem('refresh_token')) {
+        try {
+          await getAccessToken(false);
+        } catch (error) {
+          console.log(error);
+          setLoggedIn(false);
+          }
+      } else {
+        setLoggedIn(false);
+        window.localStorage.removeItem('access_token');
+        window.localStorage.removeItem('expires_at');
+        window.localStorage.removeItem('refresh_token');
+      }
     }
   }
 
@@ -81,7 +82,7 @@ const App = () => {
 
     const response = await fetch('auth/oauth2/token', requestOptions);
     if (!response.ok) {
-      throw new Error("Something went wrong.");
+      throw new Error("Refresh token has expired. Please log in again.");
     } else {
       const responseJson = await response.json();
       setAccessToken(responseJson.access_token);

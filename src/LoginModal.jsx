@@ -26,7 +26,7 @@ export function LoginModal(props) {
             <DialogTitle>Please enter your credentials</DialogTitle>
             <form id="login" onSubmit={handleLogin}>
             <DialogContent>
-                <TextField sx={{ mb: "0.5rem" }} label="Username" fullWidth defaultValue={username} onChange={(e) => {setUsername(e.target.value)}} />
+                <TextField sx={{ mb: "0.5rem" }} label="Username" fullWidth onChange={(e) => {console.log(e.target); setUsername(e.target.value)}} />
                 <TextField label="Password" type="password" fullWidth onChange={(e) => setPassword(e.target.value)} />
                 {loginError && <Box sx={{ color: "red" }}>Login failed. Please try again.</Box>}
             </DialogContent>
