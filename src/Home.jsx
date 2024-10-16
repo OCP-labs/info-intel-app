@@ -22,7 +22,7 @@ export const Home = (props) => {
       display: "flex", 
       justifyContent: "center", 
       alignItems: "center", 
-      height: "50vh",
+      height: "55vh",
       width: "100vw" 
     }}>
       <Box sx={{ 
@@ -78,7 +78,6 @@ export const Home = (props) => {
         </Box>
         }
       </Box>
-      {loading && <CircularProgress sx={{ position: "relative", top: { md: 70 } }} />}
       {selectedFile && 
         <InfoIntel selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
       }
