@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Dialog, DialogActions, DialogTitle, DialogContent, TextField, Box, Button } from "@mui/material";
+import { Dialog, DialogActions, DialogTitle, DialogContent, TextField, Box, Button, CircularProgress } from "@mui/material";
 import AuthContext from "./context/AuthContext";
 
 export function LoginModal(props) {
@@ -7,9 +7,11 @@ export function LoginModal(props) {
     const { username, setUsername, setPassword, getAccessToken, setLoggedIn } = useContext(AuthContext);
 
     const [ loginError, setLoginError ] = useState(false);
+    const [ loading, setLoading ] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
             await getAccessToken(true);
             setLoginModalOpen(false);
@@ -18,6 +20,8 @@ export function LoginModal(props) {
         } catch(error) {
             setLoginError(true);
             console.log(error);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -36,6 +40,7 @@ export function LoginModal(props) {
                 {loginError && <Box sx={{ color: "red" }}>Login failed. Please try again.</Box>}
             </DialogContent>
             <DialogActions>
+                {loading && <CircularProgress />}
                 <Button type="submit">Submit</Button>
             </DialogActions>
             </form>
