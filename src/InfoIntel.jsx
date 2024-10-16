@@ -28,6 +28,9 @@ export const InfoIntel = (props) => {
       const responseJson = await response.json();
       setResults(responseJson);
       setResultsModalOpen(true);
+    } else {
+      setLoading(false);
+      throw new Error("Something went wrong");
     }
     setResultsModalOpen(true);
     setCurrentEndpoint("extract");
@@ -49,6 +52,7 @@ export const InfoIntel = (props) => {
       const responseJson = await response.json();
       setResults(responseJson);
     } else {
+      setLoading(false);
       throw new Error("Something went wrong");
     }
     setResultsModalOpen(true);
@@ -70,6 +74,9 @@ export const InfoIntel = (props) => {
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
+    } else {
+      setLoading(false);
+      throw new Error("Something went wrong");
     }
     setCurrentEndpoint("process");
     setResultsModalOpen(true);

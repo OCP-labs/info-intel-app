@@ -6,6 +6,7 @@ export const ProcessResults = (props) => {
 
     const [ pii, setPii ] = useState();
     const [ imageClass, setImageClass ] = useState();
+    const [ error, setError ] = useState(false);
 
     useEffect(() => {
         if (results) {
@@ -14,13 +15,19 @@ export const ProcessResults = (props) => {
                 console.log(imageClass);
                 setImageClass(imageClass);
             } else if (results.results.tme.result) {
-                setImageClass(null);
-                const extractedTerms = results.results.tme.result.results.nfinder[0].nfExtract[0].extractedTerm;
-                const piiObject = createPiiObject(extractedTerms);
-                setPii(piiObject);
+                if (results.results.tme.result.results.nfinder[0].nfExtract[0].extractedTerm.length) {
+                    setImageClass(null);
+                    const extractedTerms = results.results.tme.result.results.nfinder[0].nfExtract[0].extractedTerm;
+                    const piiObject = createPiiObject(extractedTerms);
+                    setPii(piiObject);
+                } else {
+                    setImageClass(null);
+                    setPii(null);
+                }
             } else {
                 setImageClass(null);
                 setPii(null);
+                setError(true);
             }
         }
     }, [results]);
@@ -48,15 +55,15 @@ export const ProcessResults = (props) => {
         return piiObject;
     }
 
-    return (
-        <Box sx={{ height: "100%", width: "100%" }}>
-            { imageClass ?
-            <Box>Your image contains <span style={{ fontWeight: "bold" }}>{imageClass}</span></Box>
-            :
-            pii === null ?
-            <Box sx={{ color: "red" }}>No PII found.</Box>
-            :
-            <Table>
+    const createResultsTable = () => {
+        if (imageClass) {
+            return <Box>Your image contains <span style={{ fontWeight: "bold" }}>{imageClass}</span></Box>
+        } else if (pii === null && error) {
+            return <Box>Unsupported language or file type.</Box>
+        } else if (pii === null) {
+            return <Box sx={{ color: "red" }}>No PII found.</Box>
+        } else if (pii) {
+            return <Table>
                 <TableHead>
                     <TableRow>
                         <TableCell sx={{ fontWeight: "bold" }}>Category</TableCell>
@@ -64,7 +71,7 @@ export const ProcessResults = (props) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    { pii && 
+                    {
                         Object.entries(pii).map(([key, value]) => {
                             return <TableRow key={key}>
                                 <TableCell>{key}</TableCell>
@@ -74,7 +81,12 @@ export const ProcessResults = (props) => {
                     }
                 </TableBody>
             </Table>
-            }   
+        }
+    }
+
+    return (
+        <Box sx={{ height: "100%", width: "100%" }}>
+            {createResultsTable()}
         </Box>
     )
 }

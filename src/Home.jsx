@@ -7,7 +7,6 @@ export const Home = (props) => {
   const { selectedFile, setSelectedFile } = props;
   const { loggedIn } = useContext(AuthContext);
   
-  const [ currentEndpoint, setCurrentEndpoint ] = useState();
   const [ loading, setLoading ] = useState(false);
 
   const handleFileSelection = async (e) => {

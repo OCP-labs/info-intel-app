@@ -18,6 +18,9 @@ export const ClassifyResults = (props) => {
             <Box>
                 Risk Status: {results.riskClassification.header.documentRiskStatus}
             </Box>
+            {(results.riskClassification.header.documentRiskStatus === "noRisk" || results.riskClassification.header.documentRiskStatus === "unknown")  ?
+            <></>
+            :
             <Table>
                 <TableHead>
                     <TableRow>
@@ -46,6 +49,7 @@ export const ClassifyResults = (props) => {
                 }
                 </TableBody>
             </Table>
+            }
         </Box>
     )
 }

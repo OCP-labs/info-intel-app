@@ -157,7 +157,7 @@ export function ResultsModal(props) {
             <DialogTitle>
                 <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
                 <Box>Results</Box>
-                {createButton()}
+                {resultsModalOpen && createButton()}
                 {loading && <CircularProgress size="2rem" sx={{ ml: "1rem", mt: "0.25rem" }} />}
                 </Box>
             </DialogTitle>
