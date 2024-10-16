@@ -22,7 +22,12 @@ export function LoginModal(props) {
     }
 
     return (
-        <Dialog sx={{ mb: "5rem" }} open={loginModalOpen} onClose={() => setLoginModalOpen(!loginModalOpen)}>
+        <Dialog 
+            sx={{ mb: "5rem" }} 
+            open={loginModalOpen} 
+            closeAfterTransition={false} 
+            onClose={() => setLoginModalOpen(!loginModalOpen)}
+        >
             <DialogTitle>Please enter your credentials</DialogTitle>
             <form id="login" onSubmit={handleLogin}>
             <DialogContent>

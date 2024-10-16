@@ -7,6 +7,7 @@ export const Home = (props) => {
   const { selectedFile, setSelectedFile } = props;
   const { loggedIn } = useContext(AuthContext);
   
+  const [ currentEndpoint, setCurrentEndpoint ] = useState();
   const [ loading, setLoading ] = useState(false);
 
   const handleFileSelection = async (e) => {
@@ -79,7 +80,9 @@ export const Home = (props) => {
         }
       </Box>
       {loading && <CircularProgress sx={{ position: "relative", top: { md: 70 } }} />}
-      {selectedFile && <InfoIntel selectedFile={selectedFile} setSelectedFile={setSelectedFile} />}
+      {selectedFile && 
+        <InfoIntel selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
+      }
     </Box>
   )
 }

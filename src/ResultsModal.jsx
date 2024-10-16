@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Box, Button, CircularProgress, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import AuthContext from "./context/AuthContext";
-import { ExtractResults } from "./ExtractResults";
 import { ClassifyResults } from "./ClassifyResults";
+import { ProcessResults } from "./ProcessResults";
 
 export function ResultsModal(props) {
-    const { resultsModalOpen, setResultsModalOpen, results, setResults, selectedFile } = props;
+    const { resultsModalOpen, setResultsModalOpen, results, setResults, selectedFile, currentEndpoint, setCurrentEndpoint } = props;
     const { accessToken, authFetch } = useContext(AuthContext);
 
-    const [ currentEndpoint, setCurrentEndpoint ] = useState();
     const [ fileType, setFileType ] = useState("");
     const [ extractedText, setExtractedText ] = useState();
     const [ noTextFound, setNoTextFound ] = useState();
@@ -20,7 +19,6 @@ export function ResultsModal(props) {
     useEffect(() => {
         if (results) {
             if (results.hasOwnProperty("header")) {
-                setCurrentEndpoint("process");
                 const imageResults = results.results.ia;
                 if (imageResults.status.message === "SUCCESS") {
                     setFileType("image");
@@ -32,7 +30,6 @@ export function ResultsModal(props) {
                     setFileType("other");
                 }
             } else if (results.riskClassification) {
-                setCurrentEndpoint("classify")
                 const imageResults = results.riskClassification.result.image;
                 if (imageResults.length) {
                     setFileType("image");
@@ -44,7 +41,6 @@ export function ResultsModal(props) {
                     setFileType("other");
                 }
             } else {
-                setCurrentEndpoint("extract");
             }
         }
 
@@ -143,17 +139,21 @@ export function ResultsModal(props) {
                 return <pre>{JSON.stringify(results, null, 2)}</pre>
             case "classify":
                 return <ClassifyResults results={results} />;
-            /*
             case "process":
-                return <ProcessResults results={results} />;
-            */
+                return <ProcessResults results={results} />
             default:
                 return <pre>{JSON.stringify(results, null, 2)}</pre>
         }
     }
 
     return (
-        <Dialog fullWidth={true} sx={{ mb: "5rem" }} open={resultsModalOpen} onClose={() => setResultsModalOpen(!resultsModalOpen)}>
+        <Dialog 
+            fullWidth={true} 
+            sx={{ mb: "5rem" }} 
+            open={resultsModalOpen}
+            closeAfterTransition={false}
+            onClose={() => {setResultsModalOpen(!resultsModalOpen); setCurrentEndpoint("");}}
+        >
             <DialogTitle>
                 <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
                 <Box>Results</Box>
@@ -162,7 +162,7 @@ export function ResultsModal(props) {
                 </Box>
             </DialogTitle>
             <DialogContent>
-                {renderResults()}
+                {resultsModalOpen && renderResults()}
             </DialogContent>
         </Dialog>
     )

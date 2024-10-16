@@ -66,7 +66,7 @@ const App = () => {
         return newResponse;
       }
     } else {
-      throw new Error ("Something went wrong.");
+      return response;
     }
   }
 
@@ -82,7 +82,12 @@ const App = () => {
 
     const response = await fetch('auth/oauth2/token', requestOptions);
     if (!response.ok) {
-      throw new Error("Refresh token has expired. Please log in again.");
+      if (response.status === 400) {
+        window.localStorage.clear();
+        throw new Error("Refresh token has expired. Please log in again.");
+      } else {
+        throw new Error ("Something went wrong. Try to log in again.")
+      }
     } else {
       const responseJson = await response.json();
       setAccessToken(responseJson.access_token);

@@ -21,9 +21,9 @@ export const ClassifyResults = (props) => {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Risk Name</TableCell>
-                        <TableCell>Risk Level</TableCell>
-                        {riskDetails && riskDetails.pii.length > 0 && <TableCell>Frequency</TableCell>}
+                        <TableCell sx={{ fontWeight: "bold" }}>Risk Name</TableCell>
+                        <TableCell sx={{ fontWeight: "bold" }}>Risk Level</TableCell>
+                        {riskDetails && riskDetails.pii.length > 0 && <TableCell sx={{ fontWeight: "bold" }}>Frequency</TableCell>}
                     </TableRow>
                 </TableHead>
                 <TableBody>

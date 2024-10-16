@@ -9,6 +9,7 @@ export const InfoIntel = (props) => {
   const { accessToken, authFetch } = useContext(AuthContext);
 
   const [ results, setResults ] = useState();
+  const [ currentEndpoint, setCurrentEndpoint ] = useState();
   const [ resultsModalOpen, setResultsModalOpen ] = useState(false);
   const [ loading, setLoading ] = useState(false);
 
@@ -29,6 +30,7 @@ export const InfoIntel = (props) => {
       setResultsModalOpen(true);
     }
     setResultsModalOpen(true);
+    setCurrentEndpoint("extract");
     setLoading(false);
   }
 
@@ -46,8 +48,11 @@ export const InfoIntel = (props) => {
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
-      setResultsModalOpen(true);
+    } else {
+      throw new Error("Something went wrong");
     }
+    setResultsModalOpen(true);
+    setCurrentEndpoint("classify");
     setLoading(false);
   }
 
@@ -65,8 +70,8 @@ export const InfoIntel = (props) => {
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
-      setResultsModalOpen(true);
     }
+    setCurrentEndpoint("process");
     setResultsModalOpen(true);
     setLoading(false);
   }
@@ -123,7 +128,8 @@ export const InfoIntel = (props) => {
       </Box>
       {loading && <CircularProgress sx={{ position: "absolute", bottom: {xs: 350, md: 450} }} />}
       <ResultsModal resultsModalOpen={resultsModalOpen} setResultsModalOpen={setResultsModalOpen}
-       results={results} setResults={setResults} selectedFile={selectedFile} 
+       results={results} setResults={setResults} selectedFile={selectedFile} currentEndpoint={currentEndpoint}
+       setCurrentEndpoint={setCurrentEndpoint}
       />
     </>
   )
