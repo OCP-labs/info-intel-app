@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import React, { useContext } from "react";
+import { Box, Button, Typography } from "@mui/material";
 import { InfoIntel } from './InfoIntel';
 import AuthContext from "./context/AuthContext";
 
@@ -7,8 +7,6 @@ export const Home = (props) => {
   const { selectedFile, setSelectedFile } = props;
   const { loggedIn } = useContext(AuthContext);
   
-  const [ loading, setLoading ] = useState(false);
-
   const handleFileSelection = async (e) => {
     if (e.target.files[0]) {
       const file = e.target.files[0];
