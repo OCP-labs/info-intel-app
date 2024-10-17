@@ -10,20 +10,42 @@ export const ProcessResults = (props) => {
 
     useEffect(() => {
         if (results) {
+            // Checking for image analysis results
             if (results.results.ia.result) {
                 const imageClass = Object.keys(results.results.ia.result.result)[0];
                 console.log(imageClass);
                 setImageClass(imageClass);
+
+            // Checking for PII results
             } else if (results.results.tme.result) {
+
+                // PII has been found in the document
                 if (results.results.tme.result.results.nfinder[0].nfExtract[0].extractedTerm.length) {
                     setImageClass(null);
+                    /*
+                    TODO: 
+                    Parse the JSON response in the results prop to create a new object of the following form:
+                    {
+                        <cartidgeID_1>: [value1, value2, value3...],
+                        <cartridgeID_2>: [value1],
+                        <cartridgeID_3>: [value1, value2],
+                        ...
+                    }
+                    Set pii state to this new object, i.e., setPii(myPiiObject). The pii state variable 
+                    will be used to display the extracted values in tabular form.
+                    */
+
                     const extractedTerms = results.results.tme.result.results.nfinder[0].nfExtract[0].extractedTerm;
                     const piiObject = createPiiObject(extractedTerms);
                     setPii(piiObject);
+                    
+                // No PII has been found in the document
                 } else {
                     setImageClass(null);
                     setPii(null);
                 }
+            // If image analysis and PII are both empty, then an error has occurred or an incompatible file has been sent.
+            // Note that this demo app is not set up to handle video submissions, but this functionality could be added.
             } else {
                 setImageClass(null);
                 setPii(null);
