@@ -81,7 +81,6 @@ export const InfoIntel = (props) => {
     to the JSON response received back from the API. The file parameter should be included in 
     the body of the request.
     */
-
     const formData = new FormData();
     formData.append('File', file);
     const requestOptions = {
@@ -101,6 +100,7 @@ export const InfoIntel = (props) => {
     setCurrentEndpoint("process");
     setResultsModalOpen(true);
     setLoading(false);
+    
   }
 
   return (

@@ -11,17 +11,13 @@ export const ProcessResults = (props) => {
     useEffect(() => {
         if (results) {
             // Checking for image analysis results
-            if (results.results.ia.result) {
-                const imageClass = Object.keys(results.results.ia.result.result)[0];
-                console.log(imageClass);
-                setImageClass(imageClass);
+            if (!results.results.ia.result) {
 
-            // Checking for PII results
-            } else if (results.results.tme.result) {
-
-                // PII has been found in the document
-                if (results.results.tme.result.results.nfinder[0].nfExtract[0].extractedTerm.length) {
-                    setImageClass(null);
+                // Checking for PII results
+                if (!results.results.tme.result) {
+                    setPii(null);
+                    setError(true); // If both image and text analysis results are empty, then an error has occurred or an incompatible file has been sent.
+                } else if (results.results.tme.result.results.nfinder[0].nfExtract[0].extractedTerm.length) {
                     /*
                     TODO: 
                     Parse the JSON response in the results prop to create a new object of the following form:
@@ -38,18 +34,15 @@ export const ProcessResults = (props) => {
                     const extractedTerms = results.results.tme.result.results.nfinder[0].nfExtract[0].extractedTerm;
                     const piiObject = createPiiObject(extractedTerms);
                     setPii(piiObject);
-                    
-                // No PII has been found in the document
+
+                // The text of the file was successfully processed, but no PII was found. 
                 } else {
-                    setImageClass(null);
                     setPii(null);
                 }
-            // If image analysis and PII are both empty, then an error has occurred or an incompatible file has been sent.
-            // Note that this demo app is not set up to handle video submissions, but this functionality could be added.
-            } else {
                 setImageClass(null);
-                setPii(null);
-                setError(true);
+            } else {
+                const imageClass = Object.keys(results.results.ia.result.result)[0];
+                setImageClass(imageClass);
             }
         }
     }, [results]);
@@ -81,7 +74,7 @@ export const ProcessResults = (props) => {
         if (imageClass) {
             return <Box>Your image contains <span style={{ fontWeight: "bold" }}>{imageClass}</span></Box>
         } else if (pii === null && error) {
-            return <Box>Unsupported language or file type.</Box>
+            return <Box>File content was not processed. This could be due to an unsupported language or file type.</Box>
         } else if (pii === null) {
             return <Box sx={{ color: "red" }}>No PII found.</Box>
         } else if (pii) {
