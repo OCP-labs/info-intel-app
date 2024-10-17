@@ -75,7 +75,7 @@ export const ProcessResults = (props) => {
                         Object.entries(pii).map(([key, value]) => {
                             return <TableRow key={key}>
                                 <TableCell>{key}</TableCell>
-                                <TableCell>{value.length > 1 ? value.join(", ") : value}</TableCell>
+                                <TableCell>{value.length > 1 ? value.join(", ") : value.length ? value : null}</TableCell>
                             </TableRow>
                         })
                     }

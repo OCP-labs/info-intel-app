@@ -13,25 +13,22 @@ export const ClassifyResults = (props) => {
         }
     }, [results]);
 
-    return (
-        <Box sx={{ height: "100%", width: "100%" }}>
-            <Box>
-                Risk Status: {results.riskClassification.header.documentRiskStatus}
-            </Box>
-            {(results.riskClassification.header.documentRiskStatus === "noRisk" || results.riskClassification.header.documentRiskStatus === "unknown")  ?
-            <></>
-            :
-            <Table>
+    const createTable = () => {
+        if (results) {
+            if (results.riskClassification.header.documentRiskStatus === "noRisk" || results.riskClassification.header.documentRiskStatus === "unknown") {
+                return <></>
+            } else if (riskDetails) {
+                return <Table>
                 <TableHead>
                     <TableRow>
                         <TableCell sx={{ fontWeight: "bold" }}>Risk Name</TableCell>
                         <TableCell sx={{ fontWeight: "bold" }}>Risk Level</TableCell>
-                        {riskDetails && riskDetails.pii.length > 0 && <TableCell sx={{ fontWeight: "bold" }}>Frequency</TableCell>}
+                        {riskDetails.pii.length > 0 && <TableCell sx={{ fontWeight: "bold" }}>Frequency</TableCell>}
                     </TableRow>
                 </TableHead>
                 <TableBody>
                 {
-                    riskDetails && riskDetails.image.length > 0 ?
+                    riskDetails.image.length > 0 ?
                     riskDetails.image.map((result, index) => {
                         return <TableRow key={index}>
                             <TableCell>{result.riskName}</TableCell>
@@ -50,6 +47,15 @@ export const ClassifyResults = (props) => {
                 </TableBody>
             </Table>
             }
+        }
+    }
+
+    return (
+        <Box sx={{ height: "100%", width: "100%" }}>
+            <Box>
+                Risk Status: {results && results.riskClassification.header.documentRiskStatus}
+            </Box>
+            {createTable()}
         </Box>
     )
 }
