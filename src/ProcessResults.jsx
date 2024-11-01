@@ -96,6 +96,8 @@ export const ProcessResults = (props) => {
                     }
                 </TableBody>
             </Table>
+        } else {
+            return <></>
         }
     }
 

@@ -64,13 +64,19 @@ export function ResultsModal(props) {
         const response = await authFetch('api/extract?action=ocr', requestOptions);
         if (response.ok) {
             const responseJson = await response.json();
-            const text = responseJson.riskExtraction.results["idol-ocr"].result.results;
-            if (!text) {
-                setNoTextFound(true);
-                console.log("No text found in image.")
+            if (responseJson.riskExtraction.results["idol-ocr"].result) {
+                const text = responseJson.riskExtraction.results["idol-ocr"].result.results;
+                if (!text) {
+                    setNoTextFound(true);
+                    console.log("No text found in image.")
+                } else {
+                    console.log(text);
+                    setNoTextFound(false);
+                    setExtractedText(text);
+                }
             } else {
-                setNoTextFound(false);
-                setExtractedText(text);
+                setLoading(false);
+                throw new Error("Server error.")
             }
         }
         setLoading(false);

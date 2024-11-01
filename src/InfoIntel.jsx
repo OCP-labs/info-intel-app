@@ -100,7 +100,6 @@ export const InfoIntel = (props) => {
     setCurrentEndpoint("process");
     setResultsModalOpen(true);
     setLoading(false);
-    
   }
 
   return (
