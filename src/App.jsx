@@ -13,10 +13,35 @@ const App = () => {
   const [ loginModalOpen, setLoginModalOpen ] = useState(false);
   const [ selectedFile, setSelectedFile ] = useState();
 
-  useEffect(() => {
-    checkUserStatus();
-  });
 
+  useEffect(() => {
+    const checkForToken = async () => {
+      const oldToken = window.localStorage.getItem("access_token");
+      const newToken = oldToken ? oldToken : await getAccessToken();
+      if (!newToken) {
+        throw new Error("Something went wrong. Please check your client credentials.")
+      } else {
+        setLoggedIn(true);
+        setAccessToken(newToken);
+      }
+      /*
+      if (currentToken) {
+        setLoggedIn(true);
+        setAccessToken(currentToken);
+      } else {
+        const newToken = await getAccessToken();
+        if (newToken) {
+          setLoggedIn(true);
+          setAccessToken(newToken);
+        } else {
+          throw new Error("Something went wrong. Please check your client credentials.")
+        }
+      }
+      */
+    }
+    checkForToken();
+  }, []);
+  /*
   const checkUserStatus = async () => {
     const currentUsername = window.localStorage.getItem('username');
     if (!currentUsername || currentUsername === 'undefined') {
@@ -45,7 +70,7 @@ const App = () => {
       }
     }
   }
-
+ 
   const authFetch = async (url, options) => {
     options.headers = {
       ...options.headers,
@@ -68,7 +93,52 @@ const App = () => {
       return response;
     }
   }
+  */
 
+  const authFetch = async (url, options) => {
+    options.headers = {
+      ...options.headers,
+      'Authorization': `Bearer ${accessToken}`
+  }
+    const response = await fetch(url, options);
+    if (response.ok) {
+      return response;
+    } else if (response.status === 401) {
+      const newAccessToken = await getAccessToken();
+      options.headers = {
+        ...options.headers,
+        'Authorization': `Bearer ${newAccessToken}`
+      }
+      const newResponse = await fetch(url, options);
+      if (newResponse.ok) {
+        return newResponse;
+      }
+    } else {
+      return response;
+    }
+  }
+
+  const getAccessToken = async () => {
+    const body = createAuthBody();
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams(body)
+    }
+    const response = await fetch('auth/oauth2/token', requestOptions);
+    if (!response.ok) {
+      return new Error ("Something went wrong. Please try refreshing the page")
+    } else {
+      const responseJson = await response.json();
+      setAccessToken(responseJson.access_token);
+      window.localStorage.setItem("access_token", responseJson.access_token);
+      return responseJson.access_token;
+    }
+  }
+
+  /*
   const getAccessToken = async (usePassword) => {
     const body = createAuthBody(usePassword);
     const requestOptions = {
@@ -100,7 +170,18 @@ const App = () => {
       return responseJson.access_token;
     }
   }
+  */
 
+  const createAuthBody = () => {
+    const body = {
+      'grant_type': 'client_credentials',
+      'client_id': import.meta.env.VITE_CLIENT_ID,
+      'client_secret': import.meta.env.VITE_CLIENT_SECRET,
+    }
+    return body;
+  }
+
+  /*
   const createAuthBody = (usePassword) => {
     let body = {
       'client_id': import.meta.env.VITE_CLIENT_ID,
@@ -120,6 +201,7 @@ const App = () => {
     }
     return body;
   }
+  */
     
   const calculateTimeOfTokenExpiration = (currentTimeMilliseconds, expiresInSeconds) => {
     const expiresInMilliseconds = expiresInSeconds * 1000;
