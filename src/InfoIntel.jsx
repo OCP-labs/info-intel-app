@@ -15,14 +15,6 @@ export const InfoIntel = (props) => {
 
   const extractFile = async (file) => {
     setLoading(true);
-    /*
-    TODO: Add a POST request to the InfoIntel /extract endpoint and set the results state variable
-    to the JSON response received back from the API. The file parameter should be included in 
-    the body of the request.
-    
-    This app uses a proxy (defined in vite.config.js) so the URL can be simplified to 'api/extract'
-    */
-
     const formData = new FormData();
     formData.append('File', file);
     const requestOptions = {
@@ -48,9 +40,7 @@ export const InfoIntel = (props) => {
   const classifyFile = async (file) => {
     setLoading(true);
     /*
-    TODO: Add a POST request to the InfoIntel /classify  endpoint and set the results state variable
-    to the JSON response received back from the API. The file parameter should be included in 
-    the body of the request.
+    TODO: Add a POST request to the InfoIntel /classify endpoint 
     */
 
     const formData = new FormData();
@@ -77,9 +67,7 @@ export const InfoIntel = (props) => {
   const processFile = async (file) => {
     setLoading(true);
     /*
-    TODO: Add a POST request to the InfoIntel /process endpoint and set the results state variable
-    to the JSON response received back from the API. The file parameter should be included in 
-    the body of the request.
+    TODO: Add a POST request to the InfoIntel /process endpoint
     */
     const formData = new FormData();
     formData.append('File', file);

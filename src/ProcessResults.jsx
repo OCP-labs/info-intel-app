@@ -27,13 +27,30 @@ export const ProcessResults = (props) => {
                         <cartridgeID_3>: [value1, value2],
                         ...
                     }
-                    Set pii state to this new object, i.e., setPii(myPiiObject). The pii state variable 
-                    will be used to display the extracted values in tabular form.
                     */
-
                     const extractedTerms = results.results.tme.result.results.nfinder[0].nfExtract[0].extractedTerm;
-                    const piiObject = createPiiObject(extractedTerms);
+                    /*
+                    let piiObject = {};
+                    extractedTerms.forEach(term => {
+                        const cartridge = term.cartridgeID;
+                        let newValue;
+                        if (term.nfinderNormalized){
+                            newValue = term.nfinderNormalized;
+                        } else if (term.mainTerm) {
+                            newValue = term.mainTerm.value;
+                        } else {
+                            newValue = term.clientNormalized;
+                        }
+                        if (piiObject.hasOwnProperty(cartridge)) {
+                            const oldValue = piiObject[cartridge];
+                            const newValues = oldValue.concat(newValue);
+                            piiObject[cartridge] = newValues;
+                        } else {
+                            piiObject[cartridge] = [newValue];
+                        }
+                    })
                     setPii(piiObject);
+                    */
 
                 // The text of the file was successfully processed, but no PII was found. 
                 } else {
@@ -47,6 +64,7 @@ export const ProcessResults = (props) => {
         }
     }, [results]);
 
+    /*
     const createPiiObject = (extractedTermsArray) => {
         let piiObject = {};
         extractedTermsArray.forEach(term => {
@@ -69,6 +87,7 @@ export const ProcessResults = (props) => {
         })
         return piiObject;
     }
+    */
 
     const createResultsTable = () => {
         if (imageClass) {
