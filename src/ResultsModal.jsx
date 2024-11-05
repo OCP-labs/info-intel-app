@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Box, Button, CircularProgress, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import AuthContext from "./context/AuthContext";
+import { ExtractResults } from "./ExtractResults";
 import { ClassifyResults } from "./ClassifyResults";
 import { ProcessResults } from "./ProcessResults";
 
@@ -142,7 +143,7 @@ export function ResultsModal(props) {
     const renderResults = () => {
         switch(currentEndpoint) {
             case "extract":
-                return <pre>{JSON.stringify(results, null, 2)}</pre>
+                return <ExtractResults results={results} />;
             case "classify":
                 return <ClassifyResults results={results} />;
             case "process":
