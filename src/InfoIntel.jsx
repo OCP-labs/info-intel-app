@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import { useAuth } from 'react-oidc-context';
 import { Box, Button, CircularProgress, IconButton, Tooltip } from "@mui/material";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-//import AuthContext from "./context/AuthContext";
 import { ResultsModal } from "./ResultsModal";
 
 export const InfoIntel = (props) => {
   const { selectedFile, setSelectedFile } = props;
-  //const { accessToken, fetch } = useContext(AuthContext);
   const { user } = useAuth();
 
   const [ results, setResults ] = useState();
@@ -21,7 +19,6 @@ export const InfoIntel = (props) => {
     formData.append('File', file);
     const requestOptions = {
       method: 'POST',
-      //headers: { 'Authorization': `Bearer ${accessToken}` },
       headers: { 'Authorization': `Bearer ${user.access_token}` },
       body: formData
     }
@@ -45,12 +42,10 @@ export const InfoIntel = (props) => {
     /*
     TODO: Add a POST request to the InfoIntel /classify endpoint 
     */
-
     const formData = new FormData();
     formData.append('File', file);
     const requestOptions = {
       method: 'POST',
-      //headers: { 'Authorization': `Bearer ${accessToken}` },
       headers: { 'Authorization': `Bearer ${user.access_token}` },
       body: formData
     }
@@ -77,7 +72,6 @@ export const InfoIntel = (props) => {
     formData.append('File', file);
     const requestOptions = {
       method: 'POST',
-      //headers: { 'Authorization': `Bearer ${accessToken}` },
       headers: { 'Authorization': `Bearer ${user.access_token}` },
       body: formData
     }
@@ -147,8 +141,8 @@ export const InfoIntel = (props) => {
       </Box>
       {loading && <CircularProgress sx={{ position: "absolute", bottom: {xs: 350, md: 450} }} />}
       <ResultsModal resultsModalOpen={resultsModalOpen} setResultsModalOpen={setResultsModalOpen}
-       results={results} setResults={setResults} selectedFile={selectedFile} currentEndpoint={currentEndpoint}
-       setCurrentEndpoint={setCurrentEndpoint}
+        results={results} setResults={setResults} selectedFile={selectedFile} currentEndpoint={currentEndpoint}
+        setCurrentEndpoint={setCurrentEndpoint}
       />
     </>
   )

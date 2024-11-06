@@ -1,14 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from 'react-oidc-context';
 import { Box, Button, CircularProgress, Dialog, DialogTitle, DialogContent } from "@mui/material";
-//import AuthContext from "./context/AuthContext";
 import { ExtractResults } from "./ExtractResults";
 import { ClassifyResults } from "./ClassifyResults";
 import { ProcessResults } from "./ProcessResults";
 
 export function ResultsModal(props) {
     const { resultsModalOpen, setResultsModalOpen, results, setResults, selectedFile, currentEndpoint, setCurrentEndpoint } = props;
-    //const { accessToken, fetch } = useContext(AuthContext);
     const { user } = useAuth();
 
     const [ fileType, setFileType ] = useState("");
@@ -60,7 +58,6 @@ export function ResultsModal(props) {
         formData.append('File', file);
         const requestOptions = {
           method: 'POST',
-          //headers: { 'Authorization': `Bearer ${accessToken}` },
           headers: { 'Authorization': `Bearer ${user.access_token}` },
           body: formData
         }
@@ -74,7 +71,6 @@ export function ResultsModal(props) {
                     setNoTextFound(true);
                     console.log("No text found in image.")
                 } else {
-                    console.log(text);
                     setNoTextFound(false);
                     setExtractedText(text);
                 }
@@ -92,7 +88,6 @@ export function ResultsModal(props) {
         formData.append('File', file);
         const requestOptions = {
             method: 'POST',
-            //headers: { 'Authorization': `Bearer ${accessToken}` },
             headers: { 'Authorization': `Bearer ${user.access_token}` },
             body: formData
         }
@@ -120,7 +115,6 @@ export function ResultsModal(props) {
         formData.append('File', file);
         const requestOptions = {
             method: 'POST',
-            //headers: { 'Authorization': `Bearer ${accessToken}` },
             headers: { 'Authorization': `Bearer ${user.access_token}` },
             body: formData
         }

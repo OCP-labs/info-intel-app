@@ -3,24 +3,12 @@ import { useAuth } from 'react-oidc-context';
 import { Box, Button, useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useTheme } from '@mui/material/styles';
-//import AuthContext from "./context/AuthContext";
 import './styles/Header.css';
 
-export const Header = (props) => {
-    const { setSelectedFile } = props;
+export const Header = () => {
     const { signoutRedirect } = useAuth();
-    //const { setUsername, setPassword, loggedIn, setLoggedIn, setAccessToken } = useContext(AuthContext);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.between("xs", "sm"));
-
-    const handleLogout = () => {
-        setUsername("");
-        setPassword("");
-        setAccessToken("");
-        setLoggedIn(false),
-        setSelectedFile();
-        window.localStorage.clear();
-    }
 
     return (
         <Grid container>

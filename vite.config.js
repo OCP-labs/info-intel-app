@@ -12,12 +12,6 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, "")
-      },
-      '/auth': {
-        target: 'https://otdsauth.test.ca.opentext.com',
-        changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/auth/, "")
       }
     }
   }

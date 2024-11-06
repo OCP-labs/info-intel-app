@@ -10,6 +10,6 @@ const authConfig = {
     onSigninCallback: () => {
       window.history.replaceState({}, document.title, window.location.pathname);
     },
-  };
+};
   
-  export default authConfig;
+export default authConfig;

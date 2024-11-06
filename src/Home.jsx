@@ -1,11 +1,9 @@
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { InfoIntel } from './InfoIntel';
-//import AuthContext from "./context/AuthContext";
 
 export const Home = (props) => {
   const { selectedFile, setSelectedFile } = props;
-  //const { loggedIn } = useContext(AuthContext);
   
   const handleFileSelection = async (e) => {
     if (e.target.files[0]) {
@@ -37,7 +35,6 @@ export const Home = (props) => {
         <Button 
           variant="contained" 
           component="label" 
-          //disabled={!loggedIn}
           sx={{ width: { xs: "50%", md: "20%" }, height: "5%" }}
         >
           Choose file
