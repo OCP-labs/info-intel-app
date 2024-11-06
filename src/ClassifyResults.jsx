@@ -13,6 +13,21 @@ export const ClassifyResults = (props) => {
         }
     }, [results]);
 
+    const getRiskStatusColor = (riskLevel) => {
+        switch(riskLevel) {
+            case "noRisk":
+                return "black";
+            case "low":
+                return "green";
+            case "medium":
+                return "orange";
+            case "high":
+                return "red";
+            default:
+                return "black";
+        }
+    }
+
     const createTable = () => {
         if (results) {
             if (results.riskClassification.header.documentRiskStatus === "noRisk" || results.riskClassification.header.documentRiskStatus === "unknown") {
@@ -53,7 +68,10 @@ export const ClassifyResults = (props) => {
     return (
         <Box sx={{ height: "100%", width: "100%" }}>
             <Box>
-                Risk Status: {results && results.riskClassification.header.documentRiskStatus}
+                Risk Status: {results && 
+                <span style={{ color: getRiskStatusColor(results.riskClassification.header.documentRiskStatus)}}>
+                    {results.riskClassification.header.documentRiskStatus}
+                </span>}
             </Box>
             {createTable()}
         </Box>
