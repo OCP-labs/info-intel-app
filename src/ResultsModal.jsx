@@ -1,13 +1,15 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useAuth } from 'react-oidc-context';
 import { Box, Button, CircularProgress, Dialog, DialogTitle, DialogContent } from "@mui/material";
-import AuthContext from "./context/AuthContext";
+//import AuthContext from "./context/AuthContext";
 import { ExtractResults } from "./ExtractResults";
 import { ClassifyResults } from "./ClassifyResults";
 import { ProcessResults } from "./ProcessResults";
 
 export function ResultsModal(props) {
     const { resultsModalOpen, setResultsModalOpen, results, setResults, selectedFile, currentEndpoint, setCurrentEndpoint } = props;
-    const { accessToken, authFetch } = useContext(AuthContext);
+    //const { accessToken, fetch } = useContext(AuthContext);
+    const { user } = useAuth();
 
     const [ fileType, setFileType ] = useState("");
     const [ extractedText, setExtractedText ] = useState();
@@ -58,11 +60,12 @@ export function ResultsModal(props) {
         formData.append('File', file);
         const requestOptions = {
           method: 'POST',
-          headers: { 'Authorization': `Bearer ${accessToken}` },
+          //headers: { 'Authorization': `Bearer ${accessToken}` },
+          headers: { 'Authorization': `Bearer ${user.access_token}` },
           body: formData
         }
         console.log("Running OCR.")
-        const response = await authFetch('api/extract?action=ocr', requestOptions);
+        const response = await fetch('api/extract?action=ocr', requestOptions);
         if (response.ok) {
             const responseJson = await response.json();
             if (responseJson.riskExtraction.results["idol-ocr"].result) {
@@ -89,11 +92,12 @@ export function ResultsModal(props) {
         formData.append('File', file);
         const requestOptions = {
             method: 'POST',
-            headers: { 'Authorization': `Bearer ${accessToken}` },
+            //headers: { 'Authorization': `Bearer ${accessToken}` },
+            headers: { 'Authorization': `Bearer ${user.access_token}` },
             body: formData
         }
         console.log("Running speech to text.")
-        const response = await authFetch('api/extract?action=audio', requestOptions);
+        const response = await fetch('api/extract?action=audio', requestOptions);
         if (response.ok) {
             const responseJson = await response.json();
             const text = responseJson.riskExtraction.results["idol-stt"].result.results;
@@ -116,10 +120,11 @@ export function ResultsModal(props) {
         formData.append('File', file);
         const requestOptions = {
             method: 'POST',
-            headers: { 'Authorization': `Bearer ${accessToken}` },
+            //headers: { 'Authorization': `Bearer ${accessToken}` },
+            headers: { 'Authorization': `Bearer ${user.access_token}` },
             body: formData
         }
-        const response = await authFetch(`api/${endpoint}`, requestOptions);
+        const response = await fetch(`api/${endpoint}`, requestOptions);
         if (response.ok) {
             const responseJson = await response.json();
             setIsReclassified(true);

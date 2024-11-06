@@ -1,13 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useAuth } from 'react-oidc-context';
 import { Box, Button, useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useTheme } from '@mui/material/styles';
-import AuthContext from "./context/AuthContext";
+//import AuthContext from "./context/AuthContext";
 import './styles/Header.css';
 
 export const Header = (props) => {
-    const { loginModalOpen, setLoginModalOpen, setSelectedFile } = props;
-    const { setUsername, setPassword, loggedIn, setLoggedIn, setAccessToken } = useContext(AuthContext);
+    const { setSelectedFile } = props;
+    const { signoutRedirect } = useAuth();
+    //const { setUsername, setPassword, loggedIn, setLoggedIn, setAccessToken } = useContext(AuthContext);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.between("xs", "sm"));
 
@@ -42,15 +44,7 @@ export const Header = (props) => {
                         </Grid>
                         <Grid zIndex={1} size={{ xs: 5, md: 6, xl: 10 }}>
                             <Grid container display="flex" justifyContent="flex-end">
-                                {loggedIn ?
-                                <Button onClick={handleLogout} sx={{ mt: "1rem", mr: "2rem", color: "white" }}>Log out</Button>
-                                :
-                                <Button 
-                                    onClick={() => setLoginModalOpen(!loginModalOpen)} sx={{ mt: "1rem", mr: "2rem", color: "white" }}
-                                >
-                                    Log In
-                                </Button>
-                                }
+                                <Button sx={{ mt: "1rem", color: "white" }} onClick={signoutRedirect}>Log Out</Button>
                             </Grid> 
                         </Grid>
                     </Grid>

@@ -1,12 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
+import { useAuth } from 'react-oidc-context';
 import { Box, Button, CircularProgress, IconButton, Tooltip } from "@mui/material";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import AuthContext from "./context/AuthContext";
+//import AuthContext from "./context/AuthContext";
 import { ResultsModal } from "./ResultsModal";
 
 export const InfoIntel = (props) => {
   const { selectedFile, setSelectedFile } = props;
-  const { accessToken, authFetch } = useContext(AuthContext);
+  //const { accessToken, fetch } = useContext(AuthContext);
+  const { user } = useAuth();
 
   const [ results, setResults ] = useState();
   const [ currentEndpoint, setCurrentEndpoint ] = useState();
@@ -19,11 +21,12 @@ export const InfoIntel = (props) => {
     formData.append('File', file);
     const requestOptions = {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${accessToken}` },
+      //headers: { 'Authorization': `Bearer ${accessToken}` },
+      headers: { 'Authorization': `Bearer ${user.access_token}` },
       body: formData
     }
     console.log("Calling /extract")
-    const response = await authFetch('api/extract', requestOptions);
+    const response = await fetch('api/extract', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
@@ -47,11 +50,12 @@ export const InfoIntel = (props) => {
     formData.append('File', file);
     const requestOptions = {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${accessToken}` },
+      //headers: { 'Authorization': `Bearer ${accessToken}` },
+      headers: { 'Authorization': `Bearer ${user.access_token}` },
       body: formData
     }
     console.log("Calling /classify")
-    const response = await authFetch('api/classify', requestOptions);
+    const response = await fetch('api/classify', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
@@ -73,11 +77,12 @@ export const InfoIntel = (props) => {
     formData.append('File', file);
     const requestOptions = {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${accessToken}` },
+      //headers: { 'Authorization': `Bearer ${accessToken}` },
+      headers: { 'Authorization': `Bearer ${user.access_token}` },
       body: formData
     }
     console.log("Calling /process")
-    const response = await authFetch('api/process', requestOptions);
+    const response = await fetch('api/process', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
