@@ -13,6 +13,21 @@ export const ClassifyResults = (props) => {
         }
     }, [results]);
 
+    const getRiskStatusColor = (riskLevel) => {
+        switch(riskLevel) {
+            case "noRisk":
+                return "black";
+            case "low":
+                return "green";
+            case "medium":
+                return "orange";
+            case "high":
+                return "red";
+            default:
+                return "black";
+        }
+    }
+
     const createTable = () => {
         if (results) {
             if (results.riskClassification.header.documentRiskStatus === "noRisk" || results.riskClassification.header.documentRiskStatus === "unknown") {
