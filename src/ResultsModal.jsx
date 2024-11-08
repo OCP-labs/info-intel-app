@@ -71,7 +71,6 @@ export function ResultsModal(props) {
                     setNoTextFound(true);
                     console.log("No text found in image.")
                 } else {
-                    console.log(text);
                     setNoTextFound(false);
                     setExtractedText(text);
                 }

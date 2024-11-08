@@ -7,10 +7,6 @@ import './styles/App.css';
 
 const App = () => {
   const [ accessToken, setAccessToken ] = useState();
-  const [ username, setUsername ] = useState();
-  const [ password, setPassword ] = useState();
-  const [ loggedIn, setLoggedIn ] = useState();
-  const [ loginModalOpen, setLoginModalOpen ] = useState(false);
   const [ selectedFile, setSelectedFile ] = useState();
 
 
@@ -21,7 +17,6 @@ const App = () => {
       if (!newToken) {
         throw new Error("Something went wrong. Please check your client credentials.")
       } else {
-        setLoggedIn(true);
         setAccessToken(newToken);
       }
     }
@@ -81,10 +76,9 @@ const App = () => {
   }
 
   return (
-    <AuthContext.Provider value={{username, setUsername, password, setPassword, accessToken, setAccessToken, getAccessToken, authFetch, loggedIn, setLoggedIn}}>
-      <Header loginModalOpen={loginModalOpen} setLoginModalOpen={setLoginModalOpen} setSelectedFile={setSelectedFile}  />
+    <AuthContext.Provider value={{accessToken, setAccessToken, getAccessToken, authFetch}}>
+      <Header setSelectedFile={setSelectedFile}  />
       <Home selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
-      <LoginModal loginModalOpen={loginModalOpen} setLoginModalOpen={setLoginModalOpen} />
     </AuthContext.Provider>
   );
 }

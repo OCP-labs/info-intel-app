@@ -1,31 +1,19 @@
-import React, { useContext } from 'react';
-import { Box, Button, useMediaQuery } from '@mui/material';
+import React from 'react';
+import { Box, useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useTheme } from '@mui/material/styles';
-import AuthContext from "./context/AuthContext";
 import './styles/Header.css';
 
-export const Header = (props) => {
-    const { loginModalOpen, setLoginModalOpen, setSelectedFile } = props;
-    const { setUsername, setPassword, loggedIn, setLoggedIn, setAccessToken } = useContext(AuthContext);
+export const Header = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.between("xs", "sm"));
-
-    const handleLogout = () => {
-        setUsername("");
-        setPassword("");
-        setAccessToken("");
-        setLoggedIn(false),
-        setSelectedFile();
-        window.localStorage.clear();
-    }
 
     return (
         <Grid container>
             <Grid size={12}>
                 <div className="page-header">
                     <Grid container spacing={2}>
-                        <Grid size={{ xs: 3, md: 2, xl: 1 }}>
+                        <Grid size={{ xs: 2, sm: 3, xl: 2 }}>
                             {isMobile ?
                             <div className="logo small">
                                 <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1514 1040" width="41" height="28">
@@ -37,21 +25,8 @@ export const Header = (props) => {
                             <div className="logo large"></div>
                             }
                         </Grid>
-                        <Grid size={{ xs: 4, md: 4, xl: 1 }}>
-                            <Box sx={{ mt: "1.4rem", fontSize: "1.5rem" }}>InfoIntel</Box>
-                        </Grid>
-                        <Grid zIndex={1} size={{ xs: 5, md: 6, xl: 10 }}>
-                            <Grid container display="flex" justifyContent="flex-end">
-                                {loggedIn ?
-                                <Button onClick={handleLogout} sx={{ mt: "1rem", mr: "2rem", color: "white" }}>Log out</Button>
-                                :
-                                <Button 
-                                    onClick={() => setLoginModalOpen(!loginModalOpen)} sx={{ mt: "1rem", mr: "2rem", color: "white" }}
-                                >
-                                    Log In
-                                </Button>
-                                }
-                            </Grid> 
+                        <Grid size={{ xs: 10, sm: 9, xl: 10 }}>
+                            <Box sx={{ mt: "1.4rem", fontSize: "1.5rem" }}>Information Intelligence</Box>
                         </Grid>
                     </Grid>
                 </div>
