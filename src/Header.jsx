@@ -8,14 +8,14 @@ import './styles/Header.css';
 export const Header = () => {
     const { signoutRedirect } = useAuth();
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.between("xs", "sm"));
+    const isMobile = useMediaQuery(theme.breakpoints.between("xs", "md"));
 
     return (
         <Grid container>
             <Grid size={12}>
                 <div className="page-header">
                     <Grid container spacing={2}>
-                        <Grid size={{ xs: 3, md: 2, xl: 1 }}>
+                        <Grid size={{ xs: 2, md: 2, xl: 1 }}>
                             {isMobile ?
                             <div className="logo small">
                                 <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1514 1040" width="41" height="28">
@@ -28,7 +28,11 @@ export const Header = () => {
                             }
                         </Grid>
                         <Grid size={{ xs: 4, md: 4, xl: 1 }}>
+                            {isMobile ?
                             <Box sx={{ mt: "1.4rem", fontSize: "1.5rem" }}>InfoIntel</Box>
+                            :
+                            <Box sx={{ mt: "1.4rem", fontSize: "1.5rem" }}>Information Intelligence</Box>
+                            }
                         </Grid>
                         <Grid zIndex={1} size={{ xs: 5, md: 6, xl: 10 }}>
                             <Grid container display="flex" justifyContent="flex-end">
