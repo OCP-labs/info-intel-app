@@ -68,7 +68,10 @@ export const ClassifyResults = (props) => {
     return (
         <Box sx={{ height: "100%", width: "100%" }}>
             <Box>
-                Risk Status: {results && results.riskClassification.header.documentRiskStatus}
+                Risk Status: {results && 
+                <span style={{ color: getRiskStatusColor(results.riskClassification.header.documentRiskStatus)}}>
+                    {results.riskClassification.header.documentRiskStatus}
+                </span>}
             </Box>
             {createTable()}
         </Box>
