@@ -39,9 +39,6 @@ export const InfoIntel = (props) => {
 
   const classifyFile = async (file) => {
     setLoading(true);
-    /*
-    TODO: Add a POST request to the InfoIntel /classify endpoint 
-    */
     const formData = new FormData();
     formData.append('File', file);
     const requestOptions = {
@@ -64,10 +61,9 @@ export const InfoIntel = (props) => {
   }
 
   const processFile = async (file) => {
+    //TODO: Add a POST request to the InfoIntel /process endpoint
+    
     setLoading(true);
-    /*
-    TODO: Add a POST request to the InfoIntel /process endpoint
-    */
     const formData = new FormData();
     formData.append('File', file);
     const requestOptions = {
