@@ -1,21 +1,19 @@
 import React from 'react';
-import { useAuth } from 'react-oidc-context';
-import { Box, Button, useMediaQuery } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useTheme } from '@mui/material/styles';
 import './styles/Header.css';
 
 export const Header = () => {
-    const { signoutRedirect } = useAuth();
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.between("xs", "md"));
+    const isMobile = useMediaQuery(theme.breakpoints.between("xs", "sm"));
 
     return (
         <Grid container>
             <Grid size={12}>
                 <div className="page-header">
                     <Grid container spacing={2}>
-                        <Grid size={{ xs: 2, md: 2, xl: 1 }}>
+                        <Grid size={{ xs: 2, sm: 3, xl: 2 }}>
                             {isMobile ?
                             <div className="logo small">
                                 <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1514 1040" width="41" height="28">
@@ -27,17 +25,8 @@ export const Header = () => {
                             <div className="logo large"></div>
                             }
                         </Grid>
-                        <Grid size={{ xs: 4, md: 4, xl: 1 }}>
-                            {isMobile ?
-                            <Box sx={{ mt: "1.4rem", fontSize: "1.5rem" }}>InfoIntel</Box>
-                            :
+                        <Grid size={{ xs: 10, sm: 9, xl: 10 }}>
                             <Box sx={{ mt: "1.4rem", fontSize: "1.5rem" }}>Information Intelligence</Box>
-                            }
-                        </Grid>
-                        <Grid zIndex={1} size={{ xs: 5, md: 6, xl: 10 }}>
-                            <Grid container display="flex" justifyContent="flex-end">
-                                <Button sx={{ mt: "1rem", color: "white" }} onClick={signoutRedirect}>Log Out</Button>
-                            </Grid> 
                         </Grid>
                     </Grid>
                 </div>
