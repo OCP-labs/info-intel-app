@@ -48,6 +48,7 @@ export const ProcessResults = (props) => {
                             piiObject[cartridge] = [newValue];
                         }
                     })
+                    console.log(piiObject);
                     setPii(piiObject);
 
                 // The text of the file was successfully processed, but no PII was found. 
