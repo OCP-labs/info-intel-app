@@ -3,6 +3,7 @@ import { useAuth } from 'react-oidc-context';
 import { Alert, Box, CircularProgress } from '@mui/material';
 import { Home } from './Home';
 import { Header } from './Header';
+import AuthContext from './context/AuthContext';
 import './styles/App.css';
 
 const App = () => {
