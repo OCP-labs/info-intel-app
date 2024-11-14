@@ -1,12 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
+import { useAuth } from 'react-oidc-context';
 import { Box, Button, CircularProgress, IconButton, Tooltip } from "@mui/material";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import AuthContext from "./context/AuthContext";
 import { ResultsModal } from "./ResultsModal";
 
 export const InfoIntel = (props) => {
   const { selectedFile, setSelectedFile } = props;
-  const { accessToken, authFetch } = useContext(AuthContext);
+  const { user } = useAuth();
 
   const [ results, setResults ] = useState();
   const [ currentEndpoint, setCurrentEndpoint ] = useState();
@@ -19,11 +19,11 @@ export const InfoIntel = (props) => {
     formData.append('File', file);
     const requestOptions = {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${accessToken}` },
+      headers: { 'Authorization': `Bearer ${user.access_token}` },
       body: formData
     }
     console.log("Calling /extract")
-    const response = await authFetch('api/extract', requestOptions);
+    const response = await fetch('api/extract', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
@@ -39,19 +39,15 @@ export const InfoIntel = (props) => {
 
   const classifyFile = async (file) => {
     setLoading(true);
-    /*
-    TODO: Add a POST request to the InfoIntel /classify endpoint 
-    */
-
     const formData = new FormData();
     formData.append('File', file);
     const requestOptions = {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${accessToken}` },
+      headers: { 'Authorization': `Bearer ${user.access_token}` },
       body: formData
     }
     console.log("Calling /classify")
-    const response = await authFetch('api/classify', requestOptions);
+    const response = await fetch('api/classify', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
@@ -65,19 +61,18 @@ export const InfoIntel = (props) => {
   }
 
   const processFile = async (file) => {
+    //TODO: Add a POST request to the InfoIntel /process endpoint
+    
     setLoading(true);
-    /*
-    TODO: Add a POST request to the InfoIntel /process endpoint
-    */
     const formData = new FormData();
     formData.append('File', file);
     const requestOptions = {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${accessToken}` },
+      headers: { 'Authorization': `Bearer ${user.access_token}` },
       body: formData
     }
     console.log("Calling /process")
-    const response = await authFetch('api/process', requestOptions);
+    const response = await fetch('api/process', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
@@ -142,8 +137,8 @@ export const InfoIntel = (props) => {
       </Box>
       {loading && <CircularProgress sx={{ position: "absolute", bottom: {xs: 350, md: 450} }} />}
       <ResultsModal resultsModalOpen={resultsModalOpen} setResultsModalOpen={setResultsModalOpen}
-       results={results} setResults={setResults} selectedFile={selectedFile} currentEndpoint={currentEndpoint}
-       setCurrentEndpoint={setCurrentEndpoint}
+        results={results} setResults={setResults} selectedFile={selectedFile} currentEndpoint={currentEndpoint}
+        setCurrentEndpoint={setCurrentEndpoint}
       />
     </>
   )
