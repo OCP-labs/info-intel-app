@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { useAuth } from 'react-oidc-context';
+import React, { useContext, useState } from "react";
 import { Box, Button, CircularProgress, IconButton, Tooltip } from "@mui/material";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import AuthContext from "./context/AuthContext";
 import { ResultsModal } from "./ResultsModal";
 
 export const InfoIntel = (props) => {
   const { selectedFile, setSelectedFile } = props;
-  const { user } = useAuth();
+  const { accessToken, authFetch } = useContext(AuthContext);
 
   const [ results, setResults ] = useState();
   const [ currentEndpoint, setCurrentEndpoint ] = useState();
@@ -19,11 +19,11 @@ export const InfoIntel = (props) => {
     formData.append('File', file);
     const requestOptions = {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${user.access_token}` },
+      headers: { 'Authorization': `Bearer ${accessToken}` },
       body: formData
     }
     console.log("Calling /extract")
-    const response = await fetch('api/extract', requestOptions);
+    const response = await authFetch('api/extract', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
@@ -43,11 +43,11 @@ export const InfoIntel = (props) => {
     formData.append('File', file);
     const requestOptions = {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${user.access_token}` },
+      headers: { 'Authorization': `Bearer ${accessToken}` },
       body: formData
     }
     console.log("Calling /classify")
-    const response = await fetch('api/classify', requestOptions);
+    const response = await authFetch('api/classify', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
@@ -68,11 +68,11 @@ export const InfoIntel = (props) => {
     formData.append('File', file);
     const requestOptions = {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${user.access_token}` },
+      headers: { 'Authorization': `Bearer ${accessToken}` },
       body: formData
     }
     console.log("Calling /process")
-    const response = await fetch('api/process', requestOptions);
+    const response = await authFetch('api/process', requestOptions);
     if (response.ok) {
       const responseJson = await response.json();
       setResults(responseJson);
