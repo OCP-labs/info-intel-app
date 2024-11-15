@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Home } from './Home';
 import { Header } from './Header';
-import AuthContext from "./context/AuthContext";
+import AuthContext from './context/AuthContext';
 import './styles/App.css';
 
 const App = () => {
