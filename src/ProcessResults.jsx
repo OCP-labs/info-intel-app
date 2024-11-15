@@ -28,29 +28,7 @@ export const ProcessResults = (props) => {
                         ...
                     }
                     */
-                    const extractedTerms = results.results.tme.result.results.nfinder[0].nfExtract[0].extractedTerm;
-                    let piiObject = {};
-                    extractedTerms.forEach(term => {
-                        const cartridge = term.cartridgeID;
-                        let newValue;
-                        if (term.nfinderNormalized){
-                            newValue = term.nfinderNormalized;
-                        } else if (term.mainTerm) {
-                            newValue = term.mainTerm.value;
-                        } else {
-                            newValue = term.clientNormalized;
-                        }
-                        if (piiObject.hasOwnProperty(cartridge)) {
-                            const oldValue = piiObject[cartridge];
-                            const newValues = oldValue.concat(newValue);
-                            piiObject[cartridge] = newValues;
-                        } else {
-                            piiObject[cartridge] = [newValue];
-                        }
-                    })
-                    console.log(piiObject);
-                    setPii(piiObject);
-
+                   
                 // The text of the file was successfully processed, but no PII was found. 
                 } else {
                     setPii(null);
