@@ -61,28 +61,7 @@ export const InfoIntel = (props) => {
   }
 
   const processFile = async (file) => {
-    //TODO: Add a POST request to the InfoIntel /process endpoint
-    
-    setLoading(true);
-    const formData = new FormData();
-    formData.append('File', file);
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${accessToken}` },
-      body: formData
-    }
-    console.log("Calling /process")
-    const response = await authFetch('api/process', requestOptions);
-    if (response.ok) {
-      const responseJson = await response.json();
-      setResults(responseJson);
-    } else {
-      setLoading(false);
-      throw new Error("Something went wrong");
-    }
-    setCurrentEndpoint("process");
-    setResultsModalOpen(true);
-    setLoading(false);
+    //TODO: Add a POST request to the InfoIntel /process endpoint.
   }
 
   return (
